@@ -223,8 +223,8 @@ INPUT co342.out
 OUTPUT co342.out
 INPUT co342.toc
 INPUT co342.toc
-INPUT 1.tex
-INPUT 1.tex
+INPUT 0.tex
+INPUT 0.tex
 INPUT /usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 INPUT /usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
 INPUT /usr/share/texlive/texmf-dist/tex/generic/oberdiek/se-ascii-print.def
@@ -279,6 +279,8 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT 1.tex
+INPUT 1.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/zptmcm7t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/zptmcm7t.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/zptmcm7t.tfm
