@@ -6,3 +6,4 @@
 \contentsline {section}{\numberline {1.3}Vertex Connectivity}{5}{section.1.3}
 \contentsline {section}{\numberline {1.4}Menger's Theorem}{7}{section.1.4}
 \contentsline {section}{\numberline {1.5}2-connected Graphs}{12}{section.1.5}
+\contentsline {section}{\numberline {1.6}Blocks}{14}{section.1.6}

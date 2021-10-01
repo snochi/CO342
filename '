@@ -583,56 +583,14 @@
     \begin{proof}
         Suppose $B_1,B_2$ share at least $2$ vertices, for the sake of contradiction. We may assume that there is at least $1$ vertex in $B_1$ and $1$ vertex in $B_2$ that are not shared by $B_1,B_2$. 
         \begin{itemize}
-            \item \textit{Claim 1. $B_1\cup B_2$ does not have a cut-vertex.}
+            \item \textit{Claim 1. We claim that $B_1\cup B_2$ does not have a cut-vertex.}
 
                 \begin{subproof}
-                    Let $x$ be a vertex in $B_1\cup B_2$. Since $B_1,B_2$ share at least $2$ vertices, there is a vertex $y$ in $B_1\cup B_2$ that is not $x$. Since $B_1,B_2$ have no cut-vertices, $B_1-x, B_2-x$ are connected. Since $y$ is in both blocks, there is a path from $y$ to each vertex in $B_1-x$ and to each vertex in $B_2-x$. So $\left( B_1\cup B_2 \right)-x$ is connected, hence $B_1\cup B_2$ has no cut-vertex. 
+                    Let $x$ be a vertex in $B_1\cup B_2$. Since $B_1,B_2$ share at least $2$ vertices, there is a vertex $y$ in $B_1\cup B_2$ that is not $x$. Since $B_1,B_2$ have no cut-vertices, $B_1-x, B_2-x$ are connected. Since $y$ is in both blocks, there is a path from $y$ to each vertex in $B_1-x$ and to each vertex in $B_2-x$. So $\left( B_1\cup B_2 \right)-x$ is connected, hence $B_1\cup B_2$ has no cut-vertex. This contradicts the maximality of $B_1,B_2$.
                 \end{subproof}
         \end{itemize} 
-        But by Claim 1, $B_1\cup B_2$ is a block of $G$, which contradicts the maximality of $B_1,B_2$. 
     \end{proof}
     
-    \clearpage
-    \begin{prop}{}
-        Let $G$ be a graph. Every vertex of $G$ that is in $2$ or more blocks of $G$ is a cut-vertex.
-    \end{prop}
-
-    \begin{prop}{}
-        Let $G$ be a graph and let $B$ be a block. If $v,u\in V\left( B \right)$, then every $u,v$-path is contained $B$.
-    \end{prop}
-
-    \begin{prop}{}
-        Let $G$ be a graph. Then for any $e\in E\left( G \right)$, there exists unique block $B$ of $G$ that has $e$.
-    \end{prop}
-
-    \begin{cor}{}
-        Let $G$ be a graph and let $B_1,\ldots,B_k$ be the distinct blocks of $G$. Then
-        \begin{equation*}
-            \left\lbrace E\left( B_i \right) \right\rbrace^{k}_{i=1}
-        \end{equation*}
-        is a partition of $E\left( G \right)$.
-    \end{cor}	
-
-    \begin{definition}{Block Graph}{of a Graph}
-        Let $G$ be a graph. The \emph{block graph} of $G$ is a graph with 
-        \begin{itemize}
-            \item the vertex set $\mB\cup C$; and
-            \item the edge set $\left\lbrace Bv: B\in\mB, v\in V\left( G \right)\left[ v\in V\left( B \right), v\text{ is a cut-vertex} \right] \right\rbrace$;
-        \end{itemize} 
-        where $\mB$ is the collection of blocks of $G$ and $C$ is the set of the cut-vetices of $G$.
-    \end{definition}
-    
-    \np Note that the block graph of $G$ is bipartite with a bipartition $\left\lbrace \mB,C \right\rbrace$, where
-    \begin{itemize}
-        \item $\mB$ is the set of the blocks of $G$; and
-        \item $C$ is the set of the cut-vertices of $G$.
-    \end{itemize} 
-
-    \begin{prop}{}
-        Let $G$ be a graph. Then the block graph of $G$ is a forest.
-    \end{prop}
-
-
 
 
 
