@@ -7,3 +7,11 @@
 \contentsline {section}{\numberline {1.4}Menger's Theorem}{7}{section.1.4}
 \contentsline {section}{\numberline {1.5}2-connected Graphs}{12}{section.1.5}
 \contentsline {section}{\numberline {1.6}Blocks}{14}{section.1.6}
+\contentsline {section}{\numberline {1.7}Strong Orientation}{15}{section.1.7}
+\contentsline {section}{\numberline {1.8}3-connected Graphs}{17}{section.1.8}
+\contentsline {chapter}{\numberline {2}Introductory Algebraic Graph Theory}{19}{chapter.2}
+\etoc@startlocaltoc {3}
+\contentsline {section}{\numberline {2.1}Edge Spaces}{20}{section.2.1}
+\contentsline {chapter}{\numberline {3}Planar Graphs}{25}{chapter.3}
+\etoc@startlocaltoc {4}
+\contentsline {section}{\numberline {3.1}Planar Graphs}{26}{section.3.1}

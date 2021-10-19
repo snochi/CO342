@@ -1,0 +1,299 @@
+\documentclass[co342]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \chap{Introductory Algebraic Graph Theory} 
+
+    \section{Edge Spaces}
+
+    \begin{definition}{Edge Space}{of a Graph}
+        Let $G$ be a graph. We define the \emph{edge space} of $G$, denoted as $\varep\left( G \right)$, as 
+        \begin{equation*}
+            \varep\left( G \right) = \Z_2^{E\left( G \right)}.
+        \end{equation*}
+    \end{definition}
+
+    \np 
+    \begin{enumerate}
+        \item Note that, if we index the vectors in order $E\left( G \right)=\left\lbrace e_i \right\rbrace^{m}_{i=1}$, then the vector $v\in\varep\left( G \right)$ that corresponds to $\left\lbrace e_{i_1},\ldots,e_{i_k} \right\rbrace$ would be such that
+            \begin{equation*}
+                v_i = 
+                \begin{cases} 
+                    1 & \text{if $i=i_j$ for some $j\in\left\lbrace 1,\ldots,k \right\rbrace$} \\
+                    0 & \text{otherwise}
+                \end{cases}
+            \end{equation*}
+            for all $i\in\left\lbrace 1,\ldots,m \right\rbrace$.
+        \item We can use subsets of $E\left( G \right)$ as vectors. In fact, we shall use this representation most of the time.
+        \item Addition is done over $\Z$, so
+            \begin{flalign*}
+                && 0 + 0 & = 0 && \\ 
+                && 1 + 0 & = 1 && \\ 
+                && 0 + 1 & = 1 && \\ 
+                && 1 + 1 & = 0.
+            \end{flalign*} 
+            This means, given $E_1,E_2\subseteq E\left( G \right)$, the sum $E_1+E_2$ represents the \textit{symmetric difference} $E_1\triangle E_2$. 
+        \item We do not have to worry about scalar multiplication, as we are working over $\Z_2 = \left\lbrace 0,1 \right\rbrace$. This in particular means it suffices for a subset of $\varep\left( G \right)$ to be closed under addition to be a \textit{subspace} of $\varep\left( G \right)$.
+        \item Suppose that $E_1,\ldots,E_k\in\varep\left( G \right)$ are given. Then observe that
+            \begin{equation*}
+                E_1,\ldots,E_k\text{ are linearly dependent} \iff \text{there are indices }i_1,\ldots,i_l\text{ such that } E_{i_1}\triangle\cdots\triangle E_{i_l} = \emptyset.
+            \end{equation*}
+            That is, linear dependence corresponds to an empty symmetric difference.
+        \item Observe that $\left\lbrace \left\lbrace e_1 \right\rbrace, \ldots, \left\lbrace e_m \right\rbrace \right\rbrace$ is a basis for $\varep\left( G \right)$. This means $\dim\left( \varep\left( G \right) \right)=\left| E\left( G \right) \right|$.
+    \end{enumerate}
+    Also recall the following result from linear algebra.
+
+    \begin{prop}{}
+        Let $V$ be a vector space and let $W\subseteq V$ be a subspace of dimension $k\in\N$. Then for every $X\subseteq W$, $X$ is a basis for $W$ if two of the following conditions hold.
+        \begin{enumerate}
+            \item $X$ is linearly independent.
+            \item $\spn\left( X \right)=W$.
+            \item $\left| X \right|=k$.
+        \end{enumerate}
+        Moreover, if $X$ is a basis for $W$, then all of the above hold.
+    \end{prop}
+
+    \begin{definition}{Cut Space}{of a Graph}
+        Let $G$ be a graph. The \emph{cut space} of $G$, denoted as $\mC^{*}\left( G \right)$, is the set of all cuts in $G$.
+    \end{definition}
+    
+    \begin{prop}{}
+        Let $G$ be a graph. Then $\mC^{*}\left( G \right)$ is a subspace of $\varep\left( G \right)$.
+    \end{prop}
+
+    \begin{proof}
+        This is by Lemma 1.6.1. That is, the symmetric difference of any two cuts is a cut, so $\mC^{*}\left( G \right)$ is closed under addition.
+    \end{proof}
+
+    \begin{prop}{}
+        The set of all bonds in $G$ spans $\mC^{*}\left( G \right)$.
+    \end{prop}
+
+    \begin{proof}
+        This follows from the fact that every cut is a disjoint union of bonds (Proposition 1.6), since the symmetric difference of two disjoint sets is the union of the sets.
+    \end{proof}
+
+    \begin{definition}{Fundamental Cut}{of a Connected Graph}
+        Let $G$ be a connected graph and let $T$ be a spanning tree of $G$. Given any edge $e$ of $T$, we say the cut $\delta_G\left( S \right)$ induced by the set of vertices $S$ of one of the components of $T-e$ is a \emph{fundamental cut} with respect to $T$, denoted as $D_e$.
+    \end{definition}
+
+    \begin{prop}{}
+        Let $G$ be connected and let $T$ be a spanning tree. Then the set of all fundamental cuts with respect to $T$ is a basis of $\mC^{*}\left( G \right)$.
+    \end{prop}
+
+    \begin{proof}
+        Note that, given any $e,f\in E\left( T \right)$,
+        \begin{equation*}
+            e\in D_f \iff e=f.
+        \end{equation*}
+        This means the set of all fundamental cuts is linearly independent. Moreover, to show the spanning part, let $F$ be a cut, where we show that $F$ can be expressed as a linear combination of fundamental cuts. Consider the sum
+        \begin{equation}
+            M = F + \sum^{}_{e\in F\cap E\left( T \right)}D_e.
+        \end{equation}
+        The claim is that $M=\emptyset$. First note that $M\in\mC^{*}\left( G \right)$ as a sum of cuts. Let $e\in E\left( T \right)$.
+        \begin{itemize}
+            \item \textit{Case 1. Suppose $e\in F$.} Then observe that $e$ precisely appears in $F$ and in $D_e$ in [2.1]. 
+            \item \textit{Case 2. Suppose $e\notin F$.} Then $e$ does not appear in [2.1]. 
+        \end{itemize} 
+        In either case, $e\notin M$. This means $M$ is a cut in $G$ that contains no edges from a spanning tree $T$, which means $M=\emptyset$. Thus
+        \begin{equation*}
+            M + \sum^{}_{e\in F\cap E\left( T \right)} D_e = \emptyset,
+        \end{equation*}
+        which means
+        \begin{equation*}
+            F = \sum^{}_{e\in F\cap E\left( T \right)} D_e. \eqedsym
+        \end{equation*}
+    \end{proof}
+
+    \clearpage
+    \begin{cor}{}
+        Let $G$ be a graph with $k$ components. Then
+        \begin{equation*}
+            \dim\left( \mC^{*}\left( G \right) \right) = \left| V\left( G \right) \right|-k.
+        \end{equation*}
+    \end{cor}	
+    
+    \begin{definition}{Cycle Space (Flow Space)}{of a Graph}
+        Let $G$ be a graph. The \emph{cycle space} (or \emph{flow space}) of $G$, denoted as $\mC\left( G \right)$, is the subspace of $\varep\left( G \right)$ spanned by the (edge sets of the) cycles of $G$.
+    \end{definition}
+    
+    \begin{definition}{Even}{Edge Set}
+        Let $G$ be a graph.
+        \begin{enumerate}
+            \item Given $F\subseteq E\left( G \right)$, we say $F$ is \emph{even} if $\deg_F\left( v \right)$ is even for all $v\in V$.
+            \item We say $G$ is \emph{even} if its edge set $E\left( G \right)$ is even.
+        \end{enumerate}
+    \end{definition}
+
+    \begin{prop}{}
+        Let $G$ be a graph and let $E_1, E_2\subseteq E\left( G \right)$. If $E_1,E_2$ are even, then $E_1\triangle E_2$ is even.
+    \end{prop}
+
+    \begin{proof}
+        Let $v\in V\left( G \right)$ and let $D_1,D_2$ be the set of edges in $E_1,E_2$ incident with $v$. Edges in $D_1\cap D_2$ do not appear in $E_1\triangle E_2$. This means
+        \begin{equation*}
+            \deg_{E_1\triangle E_2}\left( v \right) = \left| D_1 \right| + \left| D_2 \right| - 2\left| D_1\cap D_2 \right|.
+        \end{equation*}
+        Since $\left| D_1 \right|, \left| D_2 \right|, 2\left| D_1\cap D_2 \right|$ are even, $\deg_{E_1\triangle E_2}\left( v \right)$ is even. Thus $E_1\triangle E_2$ is even.
+    \end{proof}
+
+    \begin{prop}{Characterization of Even Space}
+        Let $G$ be a graph and let $H$ be a subgraph of $G$. The following are equivalent.
+        \begin{enumerate}
+            \item $H\in\mC\left( G \right)$.
+            \item $H$ is even.
+        \end{enumerate}
+    \end{prop}
+
+    \begin{proof}
+        Let $F=E\left( H \right)$.
+        \begin{itemize}
+            \item (a)$\implies$(b) Suppose $H\in\mC\left( G \right)$. By definition,
+                \begin{equation*}
+                    F = C_1\triangle C_2\triangle\cdots C_k
+                \end{equation*}
+                for some cycles $C_1,\ldots,C_k$.\footnote{Precisely speaking, we are referring to the edge sets of $C_1,\ldots,C_k$.} Since every cycle is even, each $C_i$ is even. It follows inductively that $F$ is even from Proposition 2.5.
+            \item (b)$\implies$(a) Suppose $F$ is even. We proceed inductively on $\left| F \right|$. If $\left| F \right|=0$, then $F$ is the empty sum of cycles.\footnote{We are viewing $\triangle$ as the vector addition in $\varep\left( G \right)$.} Otherwise, each nontrivial component of $H$ has minimum degree $2$. From MATH 249, we know that there is a cycle $C_k$ contained in $H$. This means $F\triangle C_k$ is even, with fewer edges than $F$. By induction, $F\triangle C_k$ is a sum of cycles of $G$, say
+                \begin{equation*}
+                    F\triangle C_k = C_1\triangle C_2\triangle\cdots C_{k-1}.
+                \end{equation*}
+                It follows that
+                \begin{equation*}
+                    F = C_1\triangle C_2\triangle\cdots C_k,
+                \end{equation*}
+                as required. \qqedsym
+        \end{itemize} 
+    \end{proof}
+
+    \begin{definition}{Fundamental Cycle}{of a Connected Graph}
+        Let $G$ be a connected graph and let $T$ be a spanning tree of $G$. For any $e\in E\left( G \right)\setminus E\left( T \right)$, the unique cycle in $T+e$, denoted as $C_e$, is called a \emph{fundamental cycle}.
+    \end{definition}
+
+    \begin{prop}{}
+        Let $G$ be a connected graph and let $T$ be a spanning tree of $G$. Then the set of all fundamental cycles with respect to $T$ is a basis for $\mC\left( G \right)$.
+    \end{prop}
+    
+    \begin{proof}
+        Each fundamental cycle is in $\mC\left( G \right)$ and contains a unique edge $e\in E\left( G \right)\setminus E\left( T \right)$. This means the set of fundamental cycles is linearly independent. To show the spanning part, let $F\in\mC\left( G \right)$ and let $F'=F\setminus E\left( T \right)$. Consider
+        \begin{equation}
+            M = F+\sum^{}_{e\in F'}C_e.
+        \end{equation}
+        So $M$ is a sum of even subgraphs, which means $M$ is even. Suppose $e\in E\left( G \right)\setminus E\left( T \right)$.
+        \begin{itemize}
+            \item \textit{Case 1. $e\in F$.} Then $e\in F'$, so $e$ appears exactly twice in [2.2].
+            \item \textit{Case 2. $e\notin F$.} Then $e\notin F'$, so $e$ does not appear in [2.2].
+        \end{itemize} 
+        This means $e\notin M$. This means the only edges in $M$ are in $T$. But the only even edge set with the edges of a tree is the empty set, so $M=\emptyset$. This means
+        \begin{equation*}
+            F = \sum^{}_{e\in F'}C_e.
+        \end{equation*}
+        Thus the set of fundamental cycles is a basis for $\mC\left( G \right)$.
+    \end{proof}
+
+    \begin{cor}{}
+        Let $G$ be a graph. If $G$ has $k$ components, then $\dim\left( \mC\left( G \right) \right) = \left| E\left( G \right) \right|-\left| V\left( G \right) \right|+k$.
+    \end{cor}	
+
+    \begin{recall}{Orthogonal}{Vectors}
+        Let $\left( V,\left\langle \cdot, \cdot\right\rangle \right)$ be an inner product space. We say $v,w\in V$ are \emph{orthogonal} if 
+        \begin{equation*}
+            \left\langle v, w\right\rangle = 0.
+        \end{equation*}
+    \end{recall}
+
+    \np Let $G$ be a graph, with an edge set $E\left( G \right) = \left\lbrace e_i \right\rbrace^{k}_{i=1}$. Note that, since $\varep\left( G \right)$ is over $\Z_2$, we cannot define an inner product over $\varep\left( G \right)$. However, we can still define a \textit{dot-product-like} bilinear form on $\varep\left( G \right)$: define $\left\langle \cdot, \cdot\right\rangle:\varep\left( G \right)^{2}\to\Z_2$ by
+    \begin{equation*}
+        \left\langle E_1, E_2\right\rangle = \sum^{k}_{i=1} \left( E_1 \right)_i\left( E_2 \right)_i,
+    \end{equation*}
+    where
+    \begin{equation*}
+        \left( E_1 \right)_i =
+        \begin{cases} 
+            1 & \text{if $e_i\in E_1$} \\
+            0 & \text{otherwise}
+        \end{cases}
+    \end{equation*}
+    for all $i\in\left\lbrace 1,\ldots,k \right\rbrace$ and similarly for $\left( E_2 \right)_i$. For convenience, we shall write
+    \begin{equation*}
+        E_1\cdot E_2 
+    \end{equation*}
+    to denote $\left\langle E_1, E_2\right\rangle$. Then Recall 2.7 motivates the following definition.
+
+    \begin{definition}{Orthogonal}{Edge Sets}
+        Let $G$ be a graph. We say $E_1,E_2\subseteq E\left( G \right)$ are \emph{orthogonal} if $E_1\cdot E_2 = 0$.
+    \end{definition}
+
+    \noindent The following result is immediate: $E_1,E_2$ are orthogonal if and only if $\left| E_1\cap E_2 \right|$ is even.
+
+    \begin{prop}{}
+        Let $G$ be a graph. Then
+        \begin{equation*}
+            \mC^{*}\left( G \right)^\perp = \mC\left( G \right).
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        We first show $\mC^{*}\left( G \right)^\perp\subseteq\mC\left( G \right)$. Let $F\in\mC^{*}\left( G \right)^\perp$, where our goal is to prove that $F$ is even. Let $v\in V\left( G \right)$. Then $\delta\left( \left\lbrace v \right\rbrace \right)\in\mC^{*}\left( G \right)$. Since $F\in\mC^{*}\left( G \right)^\perp$, $F$ is orthogonal to $v$, which means $\left| F\cap\delta\left( \left\lbrace v \right\rbrace \right) \right|$ is even. This means $\deg_F\left( v \right)$ is even, so $F$ is even. Conversely, suppose $F\in\mC\left( G \right)$ and let $D=\delta\left( X \right)$ be any cut, where $X\subseteq V\left( G \right)$ and we desire to show $\left| F\cap D \right|$ is even. Then $D\in\mC^{*}\left( G \right)$. Consider
+        \begin{equation}
+            d = \sum^{}_{v\in X}d_F\left( v \right).
+        \end{equation}
+        Since $F$ is even, $d$ is even. Edges in $F$ contribute to the sum in [2.3] in two ways.
+        \begin{enumerate}
+            \item If both endpoints of an edge are in $X$, then it contributes $2$ to the sum.
+            \item If exactly one endpoint is in $X$, then it contributes $1$ to the sum. Such an edge is in $D$, which means there are $\left| F\cap D \right|$ such edges.
+        \end{enumerate}
+        But $\left| F\cap D \right|$ is even, so it follows that $d$ is even. Thus $F,D$ are orthogonal, as desired.
+    \end{proof}
+
+    \np Note that, given a graph $G$ with $k$, components,
+    \begin{equation*}
+        \dim\left( \mC^{*}\left( g \right) \right) + \dim\left( \mC\left( G \right) \right) = \left( \left| V\left( G \right) \right|-k \right)+\left( \left| E\left( G \right) \right|-\left| V\left( G \right) \right|+k \right) = \left| E\left( G \right) \right|
+    \end{equation*}
+    by Corollary 2.4.1, 2.7.1. This is consistent with the result in linear algebra that $\dim\left( W \right)+\dim\left( W^\perp \right)=\dim\left( V \right)$ for any vector space $V$ (equipped with a bilinear form) and a subspace $W\subseteq V$.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

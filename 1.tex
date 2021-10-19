@@ -556,7 +556,7 @@
 
     \np
     \begin{enumerate}
-        \item A connected graph with no cut-vertex is not necessarily 2-connected. We might ahve an isolated vertex, or a single edge (which must be a cut-edge). So a block is $K_1, K_2,$ or 2-connected.
+        \item A connected graph with no cut-vertex is not necessarily 2-connected. We might have an isolated vertex, or a single edge (which must be a cut-edge). So a block is $K_1, K_2,$ or 2-connected.
         \item We shall see results such as \textit{this property holds for $G$ if and only if it holds for every block of $G$}. In other words, we are breaking $G$ into manageable pieces when doing such proofs.
     \end{enumerate}
 
@@ -632,6 +632,108 @@
         Let $G$ be a graph. Then the block graph of $G$ is a forest.
     \end{prop}
 
+    \section{Strong Orientation}
+    
+    \begin{definition}{Orientation}{of a Graph}
+        Let $G$ be a graph.
+        \begin{enumerate}
+            \item An \emph{orientation} of $G$ is an assignment a direction to each edge $uv$, either $u\to v$ or $v\to u$.
+            \item For any vertices $v,u$ in $G$, a $u,v$-path $P$ is directed if $u,v_1,\ldots,v_k,v$ are the vertices of $P$ and
+                \begin{equation*}
+                    u\to v_1, v_1\to v_2, \ldots, v_k\to v
+                \end{equation*}
+                are the edges of $P$.
+            \item An orientation of $G$ is called \emph{strong} if every distinct vertices $u,v$ of $G$ admits a directed $u,v$-path.
+        \end{enumerate}
+    \end{definition}
+
+    \clearpage
+    \begin{prop}{}
+        If $G$ is $2$-connected, then $G$ has a strong orientation.
+    \end{prop}
+
+    \begin{proof}
+        Let $\left( G_{i} \right)^{k}_{i=0}$ be an ear decomposition of $G$. We proceed inductively to construct an orientation for each $G_i$, and prove that they are strong orientations. Since $G_0$ is a cycle, with vertices $v_1,\ldots,v_l$ and edges $v_1v_2,\ldots,v_{l-1}v_l,v_lv_1$, we can orient $G_0$ with
+        \begin{equation*}
+            v_1\to v_2, v_2\to v_3, \ldots, v_l\to v_1.
+        \end{equation*}
+        The above results in a strong orientation. Now suppose $G_i$ has a strong orientation, where $i\geq 0$. Let $P_i$ be an ear of $G_i$, with vertices $w_1,\ldots,w_m$ and edges $w_1w_2,\ldots,w_{m-1}w_m$, that we add to $G_i$ to obtain $G_{i+1}$. We keep the same orientation for $G_i$, and orient $P_i$ as
+        \begin{equation*}
+            w_1\to w_2, w_2\to w_3, \ldots, w_m\to w_1.
+        \end{equation*}
+        Let $x,y\in V\left( G_{i+1} \right)$, where we desire to show there exists a directed $x,y$-path in the orientation of $G_{i+1}$. We break down into $5$ cases.
+        \begin{itemize}
+            \item \textit{Case 1. Suppose $x,y\in V\left( G_i \right)$.} Then by the inductive hypothesis, there exists a directed $x,y$-path in $G_i$ so in $G_{i+1}$.
+            \item \textit{Case 2. Suppose $x\in V\left( G_i \right), y\in V\left( P_i \right)$.} Then by assumption there is a directed $x_1,w_1$-path in $G_i$, followed by a directed $w_1,y$-path in $P_i$.
+            \item \textit{Case 3. Suppose $x\in V\left( P_i \right), y\in V\left( G_i \right)$.} Then there is a directed $x,w_m$-path in $P_i$ and directed $w_m,y$-path in $G_i$, combining which gives a directed $x,y$-path.
+            \item \textit{Case 4. Suppose $x,y\in V\left( P_i \right)$, with $x=w_{\alpha},y=w_{\beta}$ for some $\alpha<\beta$.} Then there is a directed $x,y$-path in $P_i$.
+            \item \textit{Case 5. Suppose $x,y\in V\left( P_i \right)$, with $x=w_{\alpha},y=w_{\beta}$ for some $\alpha>\beta$.} Then there is a directed $x,w_m$-path in $P_i$, directed $w_m,w_1$-path in $G_i$ and directed $w_1,y$-path in $P_i$. \qqedsym
+        \end{itemize} 
+    \end{proof}
+
+    \begin{theorem}{}
+        Let $G$ be connected. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ has a strong orientation.
+            \item Every block of $G$ has a strong orientation.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{proof}
+        \begin{itemize}
+            \item (a)$\implies$(b) Consider a strong orientation for $G$ and let $B$ be a block of $G$. Orient $B$ by restricting the orientation of $G$ onto $B$. To show that this is a strong orientation on $B$, observe that there is a directed $x,y$-path in $G$, and this path is in $B$ by Proposition 1.19. Hence $B$ admits a strong orientation.
+            \item (b)$\implies$(a) Suppose each block has a strong orientation and keep the same orientation for $G$. Let $x,y\in V\left( G \right)$. If $x,y$ are in the same block, then there exists a directed $x,y$-path in the block. Suppose $x,y$ are in different blocks. In the block graph of $G$, consider the path between the blocks $B_1,B_k$, say with vertices
+                \begin{equation*}
+                    B_1v_1,\ldots,v_{k-1},B_k,
+                \end{equation*}
+                where $x\in V\left( B_1 \right), y\in V\left( B_k \right)$. Since each block is strongly oriented, we can find directed paths from $x$ to $v_1$ in $B_1$, from $v_1$ to $v_2$ in $B_2$, \ldots, from $v_{k-2}$ to $v_{k-1}$ in $B_{k-1}$, and from $v_{k-1}$ to $y$ in $B_k$. Combining these paths gives a directed $x,y$-path in $G$. \qqedsym
+        \end{itemize} 
+    \end{proof}
+
+    \clearpage
+    \begin{cor}{}
+        Let $G$ be a graph. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ has a strong orientation.
+            \item $G$ is $2$-edge-connected.
+        \end{enumerate}
+    \end{cor}	
+
+    \section{3-connected Graphs}
+
+    \np We summarize $2$ characterizations of $3$-connected graphs without proof. These characterizations depend on contractions of edges.
+    
+    \begin{prop}{}
+        Let $G$ be a $3$-connected graph with at least $5$ vertices. Then $G$ has an edge $e$ such that $G /e$ is $3$-connected.
+    \end{prop}
+
+    \begin{cor}{Tutte's Characterization of $3$-connectedness}
+        Let $G$ be a graph. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ is $3$-connected.
+            \item There are graphs $G_0,\ldots,G_k$ such that
+                \begin{enumerate}
+                    \item $G_0=K_4, G_k=G$; and
+                    \item for each $\in\left\lbrace 1,\ldots,k \right\rbrace$, there exists an edge $xy$ in $G_i$ such that $\deg_{G_i}\left( x \right)\geq 3, \deg_{G_i}\left( y \right)\geq 3$ and $G_i = G_{i+1}/xy$.
+                \end{enumerate}
+        \end{enumerate}
+    \end{cor}	
+
+    \begin{definition}{Wheel}{}
+        A \emph{wheel} is the graph that consists of a cycle with another vertex that is joined to all vertices on the cycle. We write $W_n$ to denote the wheel whose cycle is of length $n\in\N$.
+    \end{definition}
+
+    \begin{theorem}{Tutte's Wheel Theorem}
+        Let $G$ be a graph. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ is $3$-connected.
+            \item There are $3$-connected $G_0,\ldots,G_k$ such that
+                \begin{enumerate}
+                    \item $G_0$ is a wheel, $G_k=G$; and
+                    \item for every $i\in\left\lbrace 1,\ldots,k \right\rbrace$, there is an edge $e$ in $G_i$ such that $G_{i-1}=G_i-e$ or $G_{i-1} = G_i /e$.
+                \end{enumerate}
+        \end{enumerate}
+    \end{theorem}
 
 
 
