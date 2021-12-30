@@ -444,4 +444,6 @@ INPUT 2.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
 INPUT 3.tex
 INPUT 3.tex
+INPUT 4.tex
+INPUT 4.tex
 INPUT co342.aux

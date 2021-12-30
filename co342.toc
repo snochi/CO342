@@ -15,3 +15,16 @@
 \contentsline {chapter}{\numberline {3}Planar Graphs}{25}{chapter.3}
 \etoc@startlocaltoc {4}
 \contentsline {section}{\numberline {3.1}Planar Graphs}{26}{section.3.1}
+\contentsline {section}{\numberline {3.2}Faces}{28}{section.3.2}
+\contentsline {section}{\numberline {3.3}Bridges}{29}{section.3.3}
+\contentsline {section}{\numberline {3.4}Kuratowski's Theorem}{31}{section.3.4}
+\contentsline {section}{\numberline {3.5}Wagner's Theorem}{33}{section.3.5}
+\contentsline {section}{\numberline {3.6}MacLane's Theorem}{35}{section.3.6}
+\contentsline {section}{\numberline {3.7}Dual Graphs}{36}{section.3.7}
+\contentsline {chapter}{\numberline {4}Matchings}{39}{chapter.4}
+\etoc@startlocaltoc {5}
+\contentsline {section}{\numberline {4.1}Matchings}{40}{section.4.1}
+\contentsline {section}{\numberline {4.2}Tutte's Theorem}{43}{section.4.2}
+\contentsline {section}{\numberline {4.3}Corollaries of Tutte's Theorem}{46}{section.4.3}
+\contentsline {section}{\numberline {4.4}Factor-critical Graphs}{48}{section.4.4}
+\contentsline {section}{\numberline {4.5}Gallai-Edmonds Structure Theorem}{50}{section.4.5}

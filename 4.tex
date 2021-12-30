@@ -1,0 +1,614 @@
+\documentclass[co342]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \chap{Matchings} 
+
+    \section{Matchings}
+
+    \begin{definition}{Matching}{of a Graph}
+        A \emph{matching} $M$ of a graph $G$ is a subset of edges in $G$ that do not share any vertices. A vertex incident with an edge in $M$ is \emph{$M$-covered}. Oterwise it is \emph{$M$-exposed}.\footnote{We drop the suffix $M$- when $M$ is understood.}
+    \end{definition}
+    
+    \np Even though $M$ is a set of edges, we may sometimes consider $M$ as a spanning subgraph of $G$. So a matching can be considered as a subgraph with maximum degree at most $1$.
+
+    \begin{definition}{Maximum}{Matching}
+        A \emph{maximum} matching in a graph $G$ is a matching with the most number of edges. We write $\alpha'\left( G \right)$ to be the size of a maximum matching in $G$. The \emph{deficiency} in $G$, denoted as $\defi\left( G \right)$, is the number of vertices exposed by a maximum matching.
+    \end{definition}
+
+    \np By definition,
+    \begin{equation*}
+        \defi\left( G \right) = \left| V\left( G \right) \right|-2\alpha'\left( G \right).
+    \end{equation*}
+
+    \begin{definition}{Perfect}{Matching}
+        A matching of a graph $G$ is called \emph{perfect} if it covers all vertices in $G$.\footnote{We also call a perfect matching a \emph{$1$-factor}.}
+    \end{definition}
+
+    \np Let $G$ be a bipartite graph with bipartition $\left\lbrace A,B \right\rbrace$. All edges join a vertex in $A$ with a vertex in $B$. So a maximum matching has size equal to the numer of vertices in $A$ that it covers. What prevents us from covering all of $A$ is that, if there is some $S\subseteq A$ where its neighbor set is smaller than $S$, then there are not enough vertices to match all of $S$. If no such set exists, then Hall's theorem (from MATH 249) ensures that there is a matching covering all of $A$.
+
+    \begin{definition}{Neighbor Set}{of a Set of Vertices}
+        Let $S$ be a vertices of a graph $G$. The \emph{neighbor set} of $S$, denoted as $N_G\left( S \right)$, is the set of all vertices in $V\left( G \right)\setminus S$ that are adjacent to a vertex in $S$.\footnote{We write $N\left( S \right)$ instead when $G$ is understood.} In case $S=\left\lbrace v \right\rbrace$, we write $N\left( v \right)$ instead.
+    \end{definition}
+
+    \begin{theorem}{Hall's Theorem}
+        Let $G$ be a bipartite graph with bipartition $\left\lbrace A,B \right\rbrace$. Then $G$ has a matching that covers all vertices in $A$ if and only if for all $S\subseteq A$, $\left| N_G\left( S \right) \right|\geq\left| S \right|$.
+    \end{theorem}
+
+    \begin{proof}
+        \begin{itemize}
+            \item ($\implies$) Let $M$ be a matching that covers all of $A$. Then for any $S\subseteq A$, al ledges with one end in $S$ have distinct vertices in $N\left( S \right)$ as the other end. So $\left| N\left( S \right) \right|\geq\left| S \right|$.
+
+            \item ($\impliedby$) Suppose $\left| N\left( S \right) \right|\geq \left| S \right|$ for all $S\subseteq A$. We prove that $G$ has a matching that covers $A$ by induction on $\left| A \right|$. When $\left| A \right|=1$, the vertex in $A$ must have at least $1$ neighbor in $B$, since $\left| N\left( A \right) \right|\geq \left| A \right|=1$. Any such edge is a matching that covers $A$.
+
+                We now assume that $\left| A \right|\geq 2$. We break into $2$ cases.
+                \begin{itemize}
+                    \item \textit{Case 1. Suppose $\left| N\left( S \right) \right|>\left| S \right|$ for all nonempty proper subsets $S$ of $A$.} Consider any edge $xy$ where $x\in A, y\in B$. Let $G' = G-\left\lbrace x,y \right\rbrace$. The goal is to show that the condition holds for any subset of $A\setminus \left\lbrace x \right\rbrace$, and use induction to find a matching that covers $A\setminus \left\lbrace x \right\rbrace$. Let $T\subseteq A\setminus \left\lbrace x \right\rbrace$. By assumption, in $G$, $\left| N_G\left( T \right) \right|>\left| T \right|$. But only $y$ is removed from $B$ to get $G'$, so $N_{G'}\left( T \right)=N_G\left( T \right)\setminus \left\lbrace y \right\rbrace = N_G\left( T \right)$. In either case,
+                        \begin{equation*}
+                            \left| N_{G'}\left( T \right) \right|\geq \left| N_G\left( T \right) \right|-1\geq \left| T \right|,
+                        \end{equation*}
+                        since $\left| N_G\left( T \right) \right|>\left| T \right|$. By induction, $G'$ has a matching $M'$ that covers $A\setminus \left\lbrace x \right\rbrace$. Then $M'\cup \left\lbrace x,y \right\rbrace$ is a matching that covers $A$ in $G$.
+
+                    \item \textit{Case 2. Suppose $\left| N\left( S \right) \right|=\left| S \right|$ for some nonempty proper subset $S$ of $A$.} We break $G$ into $2$ parts. Let
+                        \begin{flalign*}
+                            && G_1 & = G\left[ S\cup N_G\left( S \right) \right] && \\ 
+                            && G_2 & = G-\left( S\cup N_G\left( S \right) \right).
+                        \end{flalign*}
+                        For $G_1$, let $T\subseteq S$. By assumption, $\left| N_G\left( T \right) \right|\leq\left| T \right|$. But all neighbors of $T$ are in $N_G\left( S \right)$, so they are all in $G_1$. So
+                        \begin{equation*}
+                            \left| N_{G_1}\left( T \right) \right| = \left| N_G\left( T \right) \right|\leq\left| T \right|.
+                        \end{equation*}
+                        Since $S$ is a proper subset of $A$, by induction, $G_1$ has a matching $M_1$ that covers $S$ in $G_1$.
+
+                        For $G_2$, let $U\subseteq A\setminus S$. We claim that $\left| N_{G_2}\left( G \right) \right|\geq\left| U \right|$. Suppose otherwise for the sake of contradiction. Consider the set $S\cup U$ in $G$. We see that
+                        \begin{equation*}
+                            N_G\left( S\cup U \right) = N_G\left( S \right)\cup N_{G_2}\left( U \right).
+                        \end{equation*}
+                        This implies
+                        \begin{equation*}
+                            \left| N_G\left( S\cup U \right) \right|=\left| N_G\left( S \right) \right|+\left| N_{G_2}\left( U \right) \right|=\left| S \right|+\left| N_{G_2}\left( U \right) \right|<\left| S \right|+\left| U \right| = \left| S\cup U \right|,
+                        \end{equation*}
+                        a contradiction. Hence $\left| N_{G_2}\left( G \right) \right|\geq\left| U \right|$, as claimed. 
+
+                        Since $S$ is nonempty, $\left| A\setminus S \right|<\left| A \right|$. Hence by induction, $G_2$ has a matching $M_2$ that covers $A\setminus S$. Then $M_1\cup M_2$ is a matching in $G$ that covers $A$. \qqedsym
+                \end{itemize} 
+        \end{itemize} 
+    \end{proof}
+    
+    \np What if we do not have a matching that covers $A$? What is the size of a maximum matching?
+
+    \begin{subproof}[Idea]
+        We must have some $S\subseteq A$ where $\left| N\left( S \right) \right|<\left| S \right|$. Then any matching must expose at least $\left| S \right|-\left| N\left( S \right) \right|$ vertices in $A$.
+    \end{subproof}
+
+    \noindent This motivates the following definition.
+
+    \begin{definition}{Deficiency}{of a Set of Vertices}
+        For a set $S$ of vertices of a graph $G$, the \emph{deficiency} of $S$, denoted as $\defi\left( S \right)$, is defined as
+        \begin{equation*}
+            \defi\left( S \right)=\left| S \right|-\left| N_G\left( S \right) \right|.
+        \end{equation*}
+    \end{definition}
+
+    \noindent Note that we are using deficiency in a different way, applying to a set of vertices here. Also, if we have a set of maximum deficiency, we know that any matching must miss at least that many vertices.
+
+    \clearpage
+    \begin{cor}{}
+        For a bipartite graph $G$ with bipartition $\left\lbrace A,B \right\rbrace$,
+        \begin{equation*}
+            \alpha'\left( G \right) = \left| A \right|-\max_{S\subseteq A}\defi\left( S \right).
+        \end{equation*}
+    \end{cor}	
+
+    \begin{proof}
+        Note that $\defi\left( \emptyset \right)=0$, so $\max_{S\subseteq A}\defi\left( S \right)\geq 0$. Let $S\subseteq A$ be a subset with maximum deficiency. From (4.4), any matching exposes at least $\defi\left( S \right)$ vertices, so
+        \begin{equation*}
+            \alpha'\left( G \right)\leq\left| A \right|-\defi\left( S \right).
+        \end{equation*}
+        We now try to find a matching of size at least $\left| A \right|-\defi\left( S \right)$ using Hall's theorem. We obtain $G'$ from $G$ by adding $\defi\left( S \right)$ new vertices, and joint them to all vertices in $A$. Let $T\subseteq A$. The goal is to show that $\left| N_{G'}\left( T \right) \right|\geq \left| T \right|$. Then the neighbors of $T$ consists of $N_G\left( T \right)$ and all the new vertices. So
+        \begin{equation}
+            \left| N_{G'}\left( T \right) \right| = \left| N_G\left( T \right) \right|-\defi\left( S \right).
+        \end{equation}
+        Since $S$ has maximum deficiency,
+        \begin{equation}
+            \left| T \right|-\left| N_G\left( T \right) \right|\leq\defi\left( S \right).
+        \end{equation}
+        Combining [4.1], [4.2] gives
+        \begin{equation*}
+            \left| N_{G'}\left( T \right) \right|\geq\left| T \right|,
+        \end{equation*}
+        so by Hall's theorem, $G'$ has a matching $M'$ that covers $A$. But at most $\defi\left( S \right)$ edges in $M'$ use new vertices, so removing these edges results in a matching of size at least $\left| A \right|-\defi\left( S \right)$. Thus
+        \begin{equation*}
+            \alpha'\left( G \right)=\left| A \right|-\defi\left( S \right),
+        \end{equation*}
+        as required.
+    \end{proof}
+
+    \begin{cor}{$1$-factorization}
+        If $G$ is a $k$-regular bipartite graph with $k\geq 1$, then $G$ has a $1$-factor. Moreover, the edges of $G$ can be partitioned into $k$ $1$-factors.
+    \end{cor}	
+
+    \begin{proof}[Proof Sketch]
+        Let $\left\lbrace A,B \right\rbrace$ be a bipartition. Since $G$ is regular,
+        \begin{equation*}
+            \left| A \right|=\left| B \right|.
+        \end{equation*}
+        Take $S\subseteq A$. There are $k\left| S \right|$ edges incident with $S$, whose other ends are in $N\left( S \right)$. Each vertex in $N\left( S \right)$ gets at most $k$ of these edges, so
+        \begin{equation*}
+            k\left| N\left( S \right) \right|\geq k\left| S \right|.
+        \end{equation*}
+        By Hall's theorem, there is a matching that covers $A$, which is a perfect matching (i.e. $1$-factor) since $\left| A \right|=\left| B \right|$. By induction, we find $k$ disjoint perfect matchings.
+    \end{proof}
+
+    \begin{definition}{$2$-factor}{of a Graph}
+        A \emph{$2$-factor} of $G$ is a $2$-regular spanning subgraph of $G$.\footnote{Often times we think a $2$-factor as a set of cycles that cover all vertices.}
+    \end{definition}
+
+    \begin{prop}{$2$-factorization}
+        Let $G$ be a $2k$-regular graph with $k\geq 1$. Then $G$ has a $2$-factor. Moreover, the edges of $G$ can be partitioned into $2$-factors.
+    \end{prop}
+
+    \begin{recall}{Eulerian Circuit}{}
+        Let $G$ be a graph. We say a walk on $G$ is an \emph{Eulerian circuit} if it is a closed walk that uses every edge exactly once.
+    \end{recall}
+
+    \begin{prop}{}
+        Let $G$ be a connected graph. If every vertex has even degree, then $G$ admits an Eulerian circuit.
+    \end{prop}
+
+    \begin{proof}[Proof of Proposition 4.2]
+        We may assume that $G$ is connected. Since every vertex has even degree, it has an Eulerian circuit, say $\left( v_{i} \right)^{k}_{i=0}$. We create a new graph $H$ as follows: for each vertex $v$ in $G$, we add two vertices $v^-, v^+$ in $H$; for each edge $e_i=v_iv_{i+1}$, we add an edge $v_i^-v_{i+1}^+$ to $H$. Then $H$ is bipartite with bipartition $\left\lbrace \left\lbrace v^- \right\rbrace^{}_{v\in V\left( G \right)}, \left\lbrace v^+ \right\rbrace^{}_{v\in V\left( G \right)} \right\rbrace$. When the Eulerian circuit visits $v_i$, it uses two edges $e_{i-1},e_i$ incident with $v_i$. They correspond to edges in $H$ that contributes to the degrees of $v_i^+, v_i^-$ respectively. Since $G$ is $2k$-regular, the Eulerian circuit visits each vertex $k$ times. Hence $H$ is $k$-regular, so has a perfect matching. By merging $v^-,v^+$ into $v$, we obtain a $2$-factor for $G$.
+
+        Removing a $2$-factor form a $2k$-regular graph resutls in a $\left( 2k-2 \right)$-regular graph. By induction, we can partition $G$ into $k$ $2$-factors.
+    \end{proof}
+
+    \section{Tutte's Theorem}
+    
+    \np We now turn our attention to matchings for general graphs. That is, we desire to find a sufficient condition for the existence of a perfect matching. 
+
+    Let $G$ be a graph and let $S\subseteq V\left( G \right)$. Consider the components of $G-S$. Some have odd number of vertices, others have even number of vertices. Suppose $G$ has a perfect matching. For an odd component, at least $1$ vertex must be matched outside the component, at it must be matched with $S$. This means
+    \begin{equation}
+        \left| S \right|\geq \text{number of odd components of $G-S$}.
+    \end{equation}
+    Hence [4.3] is a necessary condition for having a perfect matching. But if this condition holds for all $S\subseteq V\left( G \right)$, then $G$ has a perfect matching. This result is known as \textit{Tutte's theorem}.
+
+    \begin{definition}{Odd}{Component}
+        We say a component of a graph is \emph{odd} if it has odd number of vertices. We denote the number of odd components of $G$ by $o\left( G \right)$.
+    \end{definition}
+
+    \begin{theorem}{Tutte's Theorem}
+        A graph $G$ has a perfect matching if and only if for every $S\subseteq V\left( G \right)$, $\left| S \right|\geq o\left( G-S \right)$.
+    \end{theorem}
+
+    \begin{lemma_inside}{Parity Lemma}
+        Let $S\subseteq V\left( G \right)$. Then
+        \begin{equation*}
+            o\left( G-S \right)-\left| S \right|\equiv \left| V\left( G \right) \right|\mod 2.
+        \end{equation*}
+        In particular, if $\left| V\left( G \right) \right|$ is even, then 
+        \begin{equation*}
+            \left| S \right|\equiv o\left( G-S \right)\mod 2.
+        \end{equation*}
+    \end{lemma_inside}
+
+    \clearpage
+    \begin{proof}[Proof of Tutte's Theorem]
+        \begin{itemize}
+            \item ($\implies$) If $G$ has a perfect matching $M$, then any odd component of $G-S$ has one edge in $M$ joining a vertex in the component with a distinct vertex in $S$. So $\left| S \right|\geq o\left( G-S \right)$.
+
+            \item Assume $\left| S \right|\geq o\left( G-S \right)$ for all $S\subseteq V\left( G \right)$. By picking $S=\emptyset$, we see that
+                \begin{equation*}
+                    0\geq o\left( G \right),
+                \end{equation*}
+                so $G$ has no odd components. This means $\left| V\left( G \right) \right|$ is even, say $\left| V\left( G \right) \right|=2n$. We proceed inductively on $n$.
+
+                When $n=1$, there are $2$ vertices, and they must be joined by an edge, since $G$ has no component. So $G$ admits a perfect matching.
+
+                We now assume $n>1$. We break into $2$ cases.
+
+                \begin{itemize}
+                    \item \textit{Case 1. Suppose $\left| S \right|>o\left( G-S \right)$ for all $S\subseteq V\left( G \right)$ where $2\leq\left| S \right|\leq 2n$.} By parity lemma,
+                        \begin{equation*}
+                            \left| S \right|\geq o\left( G-S \right)+2.
+                        \end{equation*}
+                        Let $xy$ be an edge in $G$ and let $G'=G-\left\lbrace x,y \right\rbrace$. The goal is to apply induction on $G'$. Let $T\subseteq V\left( G' \right)$. Then $G'-T = G-\left( T\cup \left\lbrace x,y \right\rbrace \right)$. By assumption,
+                        \begin{equation*}
+                            \left| T\cup \left| x,y \right| \right| \geq o\left( G-\left( T\cup \left\lbrace x,y \right\rbrace \right) \right)+2 = o\left( G'-T \right)+2
+                        \end{equation*}
+                        by parity lemma. But $\left| T\cup \left\lbrace x,y \right\rbrace \right|=\left| T \right|+2$, so this gives
+                        \begin{equation*}
+                            \left| T \right|\geq o\left( G'-T \right).
+                        \end{equation*}
+                        Hence by induction $G'$ has a perfect matching $M$, and $M\cup \left\lbrace xy \right\rbrace$ is a perfect matching in $G$.
+
+                    \item \textit{Case 2. Suppose $\left| S \right|=o\left( G-S \right)$ for some $S\subseteq V\left( G \right)$ with $\left| S \right|\geq 2$.} Among all such sets, pick $S$ to be a maximal one.
+
+                        We break our proof into three claims.
+                        \begin{itemize}
+                            \item \textit{Claim 1. All components of $G-S$ are odd.}
+
+                                \begin{subproof}
+                                    Suppose otherwise, for the sake of contradiction. Let $C$ be an even component of $G-S$. Let $x\in V\left( C \right)$. The goal is to show that $S\cup \left\lbrace x \right\rbrace$ creates a contradiction. We see that $C-x$ has odd number of vertices, so it contains an ood component. Odd components of $G-S$ are still odd components of $G-\left( S\cup \left\lbrace x \right\rbrace \right)$. So
+                                    \begin{equation*}
+                                        o\left( G-\left( S\cup\left\lbrace x \right\rbrace \right) \right)\geq o\left( G-S \right)+1 = \left| S \right|+1
+                                    \end{equation*}
+                                    by the definition of $S$. But 
+                                    \begin{equation*}
+                                        o\left( G-\left( S\cup \left\lbrace x \right\rbrace \right) \right)\leq \left| S\cup \left\lbrace x \right\rbrace \right|=\left| S \right|+1
+                                    \end{equation*}
+                                    by the assumption of the reverse direction. So
+                                    \begin{equation*}
+                                        o\left( G-\left( S\cup \left\lbrace x \right\rbrace \right) \right) = \left| S\cup\left\lbrace x \right\rbrace \right|.
+                                    \end{equation*}
+                                    This contradicts the maximality of $S$. Thus every component of $G-S$ is odd.
+                                \end{subproof}
+
+                            \item \textit{Claim 2. There is a matching between the odd components of $G-S$ with $S$.} 
+
+                                \begin{subproof}
+                                    We construct a new graph $H$ from $G$ as follows. Shrink each component of $G-S$ into one vertex. Remove any edges in $G\left[ S \right]$.
+                                    Let $T$ be the set of all vertices from shrinking the components. Then $H$ is a bipartite graph with bipartition $\left\lbrace S,T \right\rbrace$. Moreover, since $\left| S \right| = o\left( G-S \right)$, $\left| S \right|=\left| T \right|$. Now we desire to show that there is a perfect matching using Hall's theorem.
+
+                                    We claim that $\left| N_H\left( X \right) \right|\geq \left| X \right|$ for all $X\subseteq T$. Suppose otherwise, for the sake of contradiction, so that there exists $X\subseteq T$ such that $\left| N_H\left( X \right) \right|<X$. Let $Y=N_H\left( X \right)$. In $G-N_H\left( X \right)$, the components represented by $X$ are still odd components. So
+                                    \begin{equation*}
+                                        o\left( G-N_H\left( X \right) \right)\geq \left| X \right|>\left| N_H\left( X \right) \right|,
+                                    \end{equation*}
+                                    which contradicts the assumption of the reverse direction. Hence we conclude
+                                    \begin{equation*}
+                                        \left| N_H\left( X \right) \right|\geq \left| X \right|.
+                                    \end{equation*}
+                                    Thus by Hall's theorem, there is a perfect matching in $H$, which corresponds to a matching in $G$ that covers $S$, each one matched to a distinct odd component of $G-S$.
+                                \end{subproof}
+
+                            \item \textit{Claim 3. There are matchings for the rest of the components.} So fix an odd component $C$ of $G-S$. Suppose $a\in V\left( C \right)$ is matched to a vertex in $S$ from the matching. The goal is to show that $C-a$ has a perfect matching.
+
+                                \begin{subproof}
+                                    We claim that for every $Z\subseteq V\left( C-a \right)$,
+                                    \begin{equation*}
+                                        o\left( \left( C-a \right)-Z \right)\leq \left| Z \right|.
+                                    \end{equation*}
+                                    Suppose not, so there exists $S\subseteq V\left( C-a \right)$ such that $o\left( \left( C-a \right)-Z \right)>\left| Z \right|$. Since $C-a$ has even number of vertices, by parity lemma, 
+                                    \begin{equation*}
+                                        o\left( \left( C-a \right)-Z \right)\geq \left| Z \right|+2.
+                                    \end{equation*}
+
+                                    Now consider
+                                    \begin{equation*}
+                                        W = S\cup\left\lbrace a \right\rbrace\cup Z.
+                                    \end{equation*}
+                                    Then the odd components of $G-W$ are the odd components of $\left( C-a \right)-Z$ and odd components of $G-S$ except $C$. Hence
+                                    \begin{equation*}
+                                        o\left( G-W \right) = o\left( \left( C-a \right)-Z \right)+o\left( G-S \right)-1.
+                                    \end{equation*}
+                                    But note that
+                                    \begin{equation*}
+                                        o\left( \left( C-a \right)-Z \right)+o\left( G-S \right) - 1\geq \left| Z \right|+2+\left| S \right|-1 = \left| Z \right|+\left| S \right|+1 = \left| W \right|.
+                                    \end{equation*}
+                                    By the assumption of the reverse direction, it follows that
+                                    \begin{equation*}
+                                        o\left( G-W \right) = \left| W \right|.
+                                    \end{equation*}
+                                    This contradicts the maximality of $S$, and the (sub)claim holds.
+
+                                    By induction, there exists a perfect matching in $C-a$. We can apply this to all components of $G-S$. 
+                                \end{subproof}
+                        \end{itemize}
+                    By Claim 2, 3, we have a perfect matching in $G$
+                \end{itemize} 
+                This concludes the proof of Tutte's theorem. \qqedsym
+        \end{itemize} 
+    \end{proof}
+
+    \section{Corollaries of Tutte's Theorem}
+
+    \np We discuss some of the corollaries of Tutte's theorem in this section.
+
+    Suppose in a graph $G$ we find a set $S$ such that $o\left( G-S \right)>\left| S \right|$. Then any matching must expose at least $o\left( G-S \right)-\left| S \right|$ vertices. This motivates the following definition.
+
+    \begin{definition}{Deficiency}{of a Set of Vertices}
+        Let $G$ be a graph. For any $S\subseteq V\left( G \right)$, we define the \emph{deficiency} of $S$, denoted as $\defi\left( S \right)$, as
+        \begin{equation*}
+            \defi\left( S \right) = o\left( G-S \right) - \left| S \right|.
+        \end{equation*}
+    \end{definition}
+
+    \noindent It follows from the above discussion that any matching exposes at least $\max_{S\subseteq V\left( G \right)}\defi\left( S \right)$ vertices. Intuitively, a maximum matching would expose precisely $\max_{S\subseteq V\left( G \right)}\defi\left( S \right)$ vertices. This result is known as \textit{Tutte-Berge formula}.
+
+    \begin{cor}{Tutte-Berge Formula}
+        For any graph $G$,
+        \begin{equation*}
+            \alpha'\left( G \right) = \frac{1}{2}\left( \left| V\left( G \right) \right|-\max_{S\subseteq V\left( G \right)}\defi\left( S \right) \right).
+        \end{equation*}
+    \end{cor}	
+
+    \begin{definition}{Tutte Set}{}
+        A \emph{Tutte set} is a set of vertices with maximum deficiency; that is,
+        \begin{equation*}
+            \argmax_{S\subseteq V\left( G \right)} \defi\left( S \right).
+        \end{equation*}
+    \end{definition}
+    
+    \np[Tutte Set]If $S$ is a Tutte set, then $\defi\left( S \right)=\defi\left( G \right)$, the number of vertices exposed by a maximum matching in $G$. It should be noted that a graph can have multiple Tutte sets.
+
+    Let $S$ be a Tutte set and let $M$ be a maximum matching. Any matching exposes at least $\defi\left( S \right)$ vertices, due to the structure of the odd components and $S$. But $M$ exposes exactly $\defi\left( S \right)$ vertices by the Tutte-Berge formula. So it is the case that each vertex in $S$ is matched to a distinct odd component, a vertex from the remaining odd components is exposed, and the rest is covered. In particular, it follows that any maximum matching covers $S$ and all even components of $G-S$.
+
+    This motivates the following definition.
+
+    \begin{definition}{Essential, Avoidable}{Vertex}
+        Let $G$ be a graph and let $v$ be a vertex.
+        \begin{enumerate}
+            \item We say $v$ is \emph{essential} in $G$ if every maximum matching in $G$ covers $v$. Equivalently,
+                \begin{equation*}
+                    \alpha'\left( G-v \right) = \alpha'\left( G \right)-1.
+                \end{equation*}
+
+            \item We say $v$ is \emph{avoidable} if some maximum matching exposes $v$. Equivalently,
+                \begin{equation*}
+                    \alpha'\left( G-v \right)=\alpha'\left( G \right).
+                \end{equation*}
+        \end{enumerate}
+    \end{definition}
+
+    \clearpage
+    \begin{lemma_inside}{}
+        Every vertex in a Tutte set is essential.
+    \end{lemma_inside}
+
+    \begin{proof}
+        Let $S\subseteq V\left( G \right)$ be a Tutte set in a graph $G$ and let $x\in S$. Consider the graph $G'=G-x$ and the set $S'=S\setminus \left\lbrace x \right\rbrace$. Then
+        \begin{equation*}
+            G-S = G'-S',
+        \end{equation*}
+        so
+        \begin{equation*}
+            o\left( G-S \right) = o\left( G'-S' \right).
+        \end{equation*}
+        So
+        \begin{equation*}
+            \defi_G\left( G' \right)\geq\defi_{G'}\left( S' \right)=o\left( G'-S' \right)-\left| S' \right|=o\left( G-S \right)-\left( \left| S \right|-1 \right)=o\left( G-S \right)-\left| S \right|+1 =\defi\left( G \right)+1,
+        \end{equation*}
+        since $S$ is a Tutte set. It follows $\alpha'\left( G' \right)<\alpha'\left( G \right)$, so $x$ is essential.
+    \end{proof}
+
+    \begin{cor}{}
+        Let $S$ be a Tutte set in a graph $G$. Then
+        \begin{enumerate}
+            \item every vertex in $S$ is essential, and is matched to distinct odd components of $G-S$ in any maximum matching;
+            \item each even component $C$ of $G-S$ has a perfect matching, and each vertex of $C$ is essential; and
+            \item each odd component of $G-S$ has a near-perfect matching.\footnote{We say a matching is \emph{near-perfect} if it covers all but one vertex.}
+        \end{enumerate}
+    \end{cor}	
+
+    \np We now use Tutte's theorem to prove a sufficient condition for having a perfect matching.
+
+    \begin{cor}{Petersen's Theorem}
+        A $3$-regular graph with no cut-edges has a perfect matching.
+    \end{cor}	
+
+    \begin{proof}
+        Let $G$ be a $3$-regular graph with no cut-edges. We verify the condition of the Tutte's theorem. So let $S\subseteq V\left( G \right)$ and let $k=o\left( G-S \right)$. 
+
+        If $k=0$, then $o\left( G-S \right)\leq \left| S \right|$. 
+
+        We now assume $k\geq 1$, and let $C_1,\ldots,C_k$ be the odd components of $G-S$. Let $F_i$ be the set of edges with one end in $C_i$ and one end in $S$.
+        \begin{itemize}
+            \item \textit{Claim 1. $\left| F_i \right|$ is odd.}
+
+                \begin{subproof}
+                    Consider the sum
+                    \begin{equation*}
+                        \sum^{}_{v\in V\left( C_i \right)}\deg_G\left( v \right).
+                    \end{equation*}
+                    This is odd since $\left| V\left( C_i \right) \right|$ and $\deg_G\left( v \right)=3$ are both odd. Each edge in $C_i$ contributes $2$ to the sum, and each edge in $F_i$ contributes $1$ to the sum. So $2\left| E\left( C_i \right) \right|+\left| F_i \right|$ is odd, implying that $\left| F_i \right|$ is odd.
+                \end{subproof}
+        \end{itemize} 
+        But note that $\left| F_i \right|\neq 1$, since there are no cut-edges. So $\left| F_i \right|\geq 3$ for each $i$. Over all $k$ components, there are at least $3k$ edges incident with vertices in $S$. But each vertex in $S$ has degree $3$, so
+        \begin{equation*}
+            3\left| S \right|\geq 3k.
+        \end{equation*}
+        Since $k\geq 1$, it follows that
+        \begin{equation*}
+            \left| S \right|\geq k = o\left( G-S \right).
+        \end{equation*}
+        By Tutte's theorem, $G$ has a perfect matching.
+    \end{proof}
+
+    \np We can weaken the assumption to any $3$-regular graph with at most $2$ cut-edges.
+
+    \section{Factor-critical Graphs}
+    
+    \begin{definition}{Factor-critical}{Graph}
+        Let $G$ be a graph. We say $G$ is \emph{factor-critical} if $G-v$ has a $1$-factor for all $v\in V\left( G \right)$.
+    \end{definition}
+
+    \np A factor-critical graph has odd number of vertices and is connected.
+
+    \ex Here are some examples of factor-critical graphs:
+    \begin{enumerate}
+        \item odd cycles; and
+        \item odd complete graphs.
+    \end{enumerate}
+
+    \begin{prop}{Characterization of Factor-critical Graphs}
+        Let $G$ be a connected graph. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ is factor-critical.
+            \item Every vertex of $G$ is avoidable.
+        \end{enumerate}
+    \end{prop}
+
+    \begin{proof}
+        \begin{itemize}
+            \item (a)$\implies$(b) If $G$ is factor-critical, then $G-v$ has a $1$-factor, which is a maximum matching in $G$ that exposes $v$. Hence $v$ is avoidable.
+            \item (b)$\implies$(a) Suppose every vertex is avoidable. Then $\emptyset$ is the only Tutte set by Lemma 4.4.3. So
+                \begin{equation*}
+                    \defi\left( G \right)=\defi\left( \emptyset \right) = o\left( G-\emptyset \right)-\left| \emptyset \right|=o\left( G \right).
+                \end{equation*}
+                Since $G$ is connected, $o\left( G \right)$ is $0$ or $1$. But if $o\left( G \right)=0$, then $G$ has a $1$-factor, so every vertex in $G$ is essential, which is a contradiction. Hence $\defi\left( G \right)=1$, and by the Tutte-Berge formula,
+                \begin{equation*}
+                    \alpha'\left( G \right)=\frac{1}{2} \left( \left| V\left( G \right) \right|-1 \right).
+                \end{equation*}
+                But every $v\in V\left( G \right)$ is avoidable, so
+                \begin{equation*}
+                    \alpha'\left( G-v \right)=\alpha'\left( G \right) = \frac{1}{2}\left( \left| V\left( G \right) \right|-1 \right) = \frac{1}{2} \left| G-v \right|,
+                \end{equation*}
+                and $G-v$ has a $1$-factor. Thus $G$ is factor-critical. \qqedsym
+        \end{itemize} 
+    \end{proof}
+
+    \begin{prop}{}
+        If $T$ is a maximal Tutte set in a graph $G$, then each component of $G-T$ is factor-critical.
+    \end{prop}
+
+    \begin{subproof}[Proof Idea]
+        Proof of Proposition 4.6 is similar to the last part of the proof of Tutte's theorem. Also recall that, if $T$ is a maximal Tutte set, then $G-T$ consists of only odd components. Each of them is factor-critical.
+    \end{subproof}
+
+    \begin{definition}{Odd Closed-ear Decomposition}{of a Graph}
+        Let $G$ be a graph. We say a sequence $\left( G_{i} \right)^{k}_{i=0}$ of $G$ is an \emph{odd closed ear decomposition} of $G$ if 
+        \begin{enumerate}
+            \item $G_0$ is a vertex in $G$;
+            \item for each $0\leq i\leq k-1$,
+                \begin{equation*}
+                    G_{i+1} = G_i+P_i
+                \end{equation*}
+                for some ear $P_i$ of $G_i$ or an odd cycle $P_i$ that intersects $G_i$ at exactly one vertex; and
+            \item $G_k=G$.
+        \end{enumerate}
+    \end{definition}
+
+    \begin{theorem}{Perfect Graph Theorem}
+        Let $G$ be a graph. The following are equivalent.
+        \begin{enumerate}
+            \item $G$ is factor-critical.
+            \item $G$ has an odd closed-ear decomposition.
+        \end{enumerate}
+    \end{theorem}
+
+    \begin{prop}{}
+        Let $G$ be a graph and let $M_1,M_2$ be two matchings of $G$. Then $M_1\triangle M_2$ has maximum degree $2$.
+    \end{prop}
+
+    \begin{cor}{}
+        Consider the setting of Proposition 4.8. Then nontrivial components of $M_1\triangle M_2$ are paths and even cycles, with edges alternate between $M_1,M_2$.
+    \end{cor}	
+
+    \begin{proof}[Proof of Perfect Graph Theorem]
+        \begin{itemize}
+            \item (b)$\implies$(a) We provide a sketch only. We use induction with a case analysis.
+
+                \begin{itemize}
+                    \item \textit{Case 1. Add an odd ear, find an exposed vertex $x$, and cover everything else.}
+                    \item \textit{Case 2. Add an odd cycle, find an exposed vertex $x$, and cover everything else.}
+                \end{itemize} 
+
+            \item (a)$\implies$(b) Let $G$ be factor-critical and let $G_0 = \left\lbrace x \right\rbrace$ for some vertex $x$. Let $M_x$ be a $1$-factor of $G-x$.
+
+                We inductively build $G_{i=1}$ from $G_i$ by adding odd ears or odd cycles while always maintaining an \textit{invariant}: no edge of $M_x$ is in the cut induced by any $V\left( G_i \right)$. This is true for $G_0$.
+
+                Assume this invariant holds for $G_i$.
+                \begin{itemize}
+                    \item \textit{Case 1. Suppose $G_i=G$.} We are done.
+
+                    \item \textit{Case 2. Suppose there exists an edge $uv\in E\left( G \right)\setminus E\left( G-i \right)$ where $u,v\in V\left( G_i \right)$.} Set $G_{i+1}=G_i+uv$. The invariant still holds since we did not add any edge from $\delta\left( V\left( G_i \right) \right)$ to obtain $G_{i+1}$.
+
+                    \item \textit{Case 3. Suppose there exists an edge $uv\in E\left( G \right)\setminus E\left( G_i \right)$, where $u\in V\left( G_i \right), v\notin V\left( G_i \right)$.} By the invariant, $uv\notin M_x$. Let $M_v$ be a $1$-factor of $G-v$. Consider
+                        \begin{equation*}
+                            M_x\triangle M_v.
+                        \end{equation*}
+                        We see that $x$ is covered by $M_v$ but not $M_x$. On the other hand, $v$ is covered by $M_x$ but not $M_v$. So the only vertices of degree $1$ in $M_x\triangle M_v$ are $x,v$. Then by Corollary 4.8.1, $v,x$ are the endpoints of a path in $M_x\triangle M_v$, say $\left( v_0,\ldots,v_m \right)$ with $v_0=v, v_m=x$.
+
+                        Let $j$ be the smallest index such that $v_j\in V\left( G_i \right)$. This exists since $v_m=x\in V\left( G_i \right)$. Then $v_{j-1}v_J$ is in the cut induced by $V\left( G_i \right)$, so by the invariant, $v_{j-1}v_j\in M_v$. From this, we conclude that $j$ is even, so $\left( u,v_0,\ldots,v_j \right)$ has odd length, and we add this to $G_i$ to obtain $G_{i+1}$.
+
+                        But note that every new vertices on $P_i$ are covered by $M_x$, and their incident edges in $M_x$ are on $P_i$. So no edge of $M_x$ can be in the cut induced by $V\left( G_{i+1} \right)$, so the invariant holds for $G_{i+1}$. This completes the construction, and we obtain an odd closed-ear decomposition of $G$. \qqedsym
+                \end{itemize} 
+        \end{itemize} 
+    \end{proof}
+
+    \section{Gallai-Edmonds Structure Theorem}
+    
+    \begin{theorem}{Gallai-Edmonds Structure Theorem}
+        Given a graph $G$, let $D$ be the set of all avoidable vertices in $G$, let $A$ be the set of all vertices in $V\left( G \right)\setminus D$ that are adjacent to some vertex in $D$, let $C=V\left( G \right)\setminus \left( D\cup A \right)$. Then
+        \begin{enumerate}
+            \item $G\left[ D \right]$ consists of odd components that are factor-critical;
+            \item $G\left[ C \right]$ consists of even components that have perfect matchings;
+            \item $A$ is a Tutte set;
+            \item Each nonempty $S\subseteq A$ is adjacent to at least $\left| S \right|+1$ odd components of $G\left[ D \right]$; and
+            \item If $M$ is a maximum matching of $G$, then $M$ contains a near-perfect matching of each component of $G\left[ D \right]$, a perfect matching for $G\left[ C \right]$, and matches each vertex in $A$ to a distinct odd component of $G\left[ D \right]$.
+        \end{enumerate}
+    \end{theorem}
+    
+    \begin{proof}
+        Let $T$ be a maximal Tutte set. Then $G-T$ contains only factor-critical odd components. Let $H$ be a graph obtained from $G$ by shrinking each component of $G-T$ and removing edges in $G\left[ T \right]$. Then $H$ is bipartitie. Moreover, any maximum matching matches vertices in $T$ to distinct odd components. This corresponds to a matching in $H$ that covers $T$. So for any $U\subseteq T$, $\left| N_H\left( U \right) \right|\geq \left| u \right|$.
+
+        Among all subsets of $T$, pick a maximal subset $R$ such that $\left| N_H\left( R \right) \right|=\left| R \right|$. This exists since $\left| N_H\left( \emptyset \right) \right|=\left| \emptyset \right|$. Let $R'$ be the odd components represented by $N_H\left( R \right)$. Now let
+        \begin{equation*}
+            C' = R\cup R', A'=T\setminus R, D'=V\left( G \right)\setminus \left( C'\cup A' \right).
+        \end{equation*}
+        We now verify the $5$ properties for $D',A',C'$.
+        \begin{enumerate}
+            \item $G\left[ D' \right]$ consists of factor-critical components by our choice of $T$, a maximal Tutte set.
+            \item We see that $\left| R \right|$ is equal to the number of components of $R'$. Hence a maximum matching matches $R$ to all components of $R'$. Since the components of $R'$ are factor-critical, there exist perfect matchings for the rest of $R'$. So $C'=R\cup R'$ has a perfect patching.
+            \item There are no edges joining $R$ to $D'$. So the odd components of $G-A'$ are precisely the components of $D'$. So
+                \begin{equation*}
+                    \defi\left( A' \right) = o\left( G-A' \right)-\left| A' \right| = \left(o\left( G-T \right)-o\left( G\left[ R' \right] \right)\right)-\left( \left| T \right|-\left| R \right| \right) = o\left( G-T \right)-\left| T \right|=\defi\left( T \right).
+                \end{equation*}
+                Since $T$ is a Tutte set, so is $A'$.
+            \item For any $S\subseteq A'$, we know that $\left| N_H\left( S \right) \right|\geq\left| S \right|$. Suppose there exists $S\subseteq A'$ where $\left| N_H\left( S \right) \right|=\left| S \right|$ for contradiction. Then $\left| N_H\left( R\cup S \right) \right|=\left| R \right|+\left| S \right|=\left| R\cup S \right|$, which contradicts the maximality of $R$; recall that $R$ is a maximal subset whose neighborhood has the same size.
+
+            \item This follows from (a), \ldots, (d).
+        \end{enumerate}
+        
+        We now claim that $D=D', A=A', C=C'$. 
+
+        One wey to describe $C$ is that it is the set of essential vertices not adjacent to any avoidable vertex. We see that $C'$ only contains essential vertices as every maximum matching includes a perfect matching of $C'$. These vertices can be adjacent to vertices in $A$, but not $D'$. We see that $A'$ is a Tutte set, so vertices in $A'$ are essential. So $C'\subseteq C'$. 
+
+        We now show that every vertex in $D$ is avoidable. Let $J$ be a component of $D$ and let $v\in V\left( J \right)$. For each $S\subseteq A'$, it is adjacent to at least $\left| S \right|+1$ odd components of $G\left[ D' \right]$. Then $S$ is adjacent to at least $\left| S \right|$ odd components other than $J$. Using Hall's theorem, there is a matching from $A'$ to distinct odd components of $G\left[ D' \right]-J$. We can obtain a near-perfect matching for each component of $G\left[ D' \right]-J$. Since $J$ is factor-critical, there is a near-perfect matching of $J$ that exposes $v$. We also have a perfect matching for $C'$. This gives a maximum matching that exposes $v$. So $v$ is avoidable. Hence all vertices in $D'$ are avoidable while other vertices $\left( A',C' \right)$ are essential. So $D'=D$. Each vertex in $A'$ is adjacent to at least one vertex in $D'$ while no vertices in $C'$ do. So $A'=A$, and $C'=C$.
+    \end{proof}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
